@@ -1,38 +1,13 @@
 # this
 
-## What is it?
+[From w3schools](https://www.w3schools.com/js/js_this.asp):
 
-`this` is usually the class on which a function has been declared:
-
-That is not always the case in Javascript.
-
-```js
-class Foo {
-  constructor(datum) {
-    this.name = "foo";
-    this.datum = datum;
-  }
-
-  printDatum() {
-    console.log(this.datum);
-  }
-}
-
-class Bar {
-  constructor(callback) {
-    this.name = "bar";
-    this.callback = callback;
-  }
-
-  call() {
-    this.callback();
-  }
-}
-
-const foo = new Foo(10);
-const bar = new Bar(foo.printDatum);
-foo.printDatum();
-bar.call();
-```
-
-Bad times.
+> The JavaScript this keyword refers to the object it belongs to.
+> It has different values depending on where it is used:
+>
+> * In a method, this refers to the owner object.
+> * Alone, this refers to the global object.
+> * In a function, this refers to the global object.
+> * In a function, in strict mode, this is undefined.
+> * In an event, this refers to the element that received the event.
+> * Methods like call(), and apply() can refer this to any object.

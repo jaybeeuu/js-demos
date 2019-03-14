@@ -4,7 +4,7 @@
   "description": "Demo the properties of this in JS",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon ./index.js"
   },
   "keywords": [
     "this",
@@ -13,6 +13,7 @@
   "author": "Josh Bickley-Wallace (joshbickleywallace@outlook.com)",
   "license": "MIT",
   "dependencies": {
+    "express": "^4.16.4",
     "nodemon": "^1.18.10"
   }
 }

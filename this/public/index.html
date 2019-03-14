@@ -1,0 +1,49 @@
+<html>
+<head>
+    <title>What even is this?</title>
+</head>
+<body>
+    <h1>What even is this?</h1>
+    <div>
+        <a href="https://www.w3schools.com/js/js_this.asp">From w3schools:</a>
+
+        <blockquote>
+            <p>
+                The JavaScript this keyword refers to the object it belongs to.
+                It has different values depending on where it is used:
+            </p>
+            <ul>
+                <li>In a method, this refers to the owner object.</li>
+                <li>Alone, this refers to the global object.</li>
+                <li>In a function, this refers to the global object.</li>
+                <li>In a function, in strict mode, this is undefined.</li>
+                <li>In an event, this refers to the element that received the event.
+                    <button id="eventful-button">Click Me!</button>
+                </li>
+                <li>Methods like call(), and apply() can refer this to any object.</li>
+            </ul>
+        </blockquote>
+    </div>
+
+    <h2>But what about ES6 arrow functions</h2>
+    <div>
+        <p>
+            They are much simpler. They inherit <code>this</code> from their declaration.
+        </p>
+        <p>
+            <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions#No_separate_this">From MDN:</a>
+        </p>
+        <blockquote>
+            <p>
+              An arrow function does not have its own this.
+              The this value of the enclosing lexical scope is used;
+              arrow functions follow the normal variable lookup rules.
+              So while searching for this which is not present in current
+              scope they end up finding this from its enclosing scope.
+            </p>
+        </blockquote>
+    </div>
+
+    <script src="/examples.js"></script>
+</body>
+</html>
