@@ -1,4 +1,3 @@
-
 (function() {
   console.log("A bare this", this === window);
 });
@@ -7,10 +6,10 @@
 
 (function() {
   function whatDoesThisBelongTo() {
-    console.log("This is the window", this === window);
+    console.log("In a function", this === window);
   }
 
-  // whatDoesThisBelongTo();
+  whatDoesThisBelongTo();
 });
 
 ///////////////////////////////////////////////////////////////////////
@@ -26,32 +25,41 @@
     }
   }
 
-  const FunFoo = function(name) {
-    this.name = name;
+  const specificClassyFoo = new ClassyFoo("Cici");
+  specificClassyFoo.sayHi();
+});
 
-    this.sayHi = function() {
-      console.log(`Hello I'm ${this.name} and I like mushrooms.`);
-    }
+/////////////////////////////////////////////////////////////////////////
+
+(function() {
+  function hiSayer () {
+    console.log(`Um... hi. I'm just ${this.name}, I guess.`);
   }
 
   const json = {
     name: "Jason",
-    sayHi: function () {
-      console.log(`Um... hi. I'm just ${this.name}, I guess.`);
-    }
+    sayHi: hiSayer
+  };
+
+  hiSayer();
+  json.sayHi();
+});
+
+///////////////////////////////////////////////////////////////////////
+
+(function() {
+  const button = document.getElementById("eventful-button");
+
+  function onButtonClick() {
+    console.log("This in a button click", this === window, this);
   }
 
-  const classyFoo = new ClassyFoo("Cici");
-  const funFoo = new FunFoo('Eric');
-
-  // classyFoo.sayHi();
-  // funFoo.sayHi();
-  // json.sayHi();
+  button.addEventListener("click", onButtonClick);
 })();
 
 /////////////////////////////////////////////////////////////////////////
 
-(function(){;
+(function(){
   const someObject = {
     i: 10,
     arrow: () => {
@@ -66,16 +74,19 @@
   // someObject.arrow();
 })();
 
-///////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
 
 (function() {
-  const button = document.getElementById("eventful-button");
+  function FunFoo(name) {
+    this.name = name;
 
-  function onButtonClick() {
-    console.log("This in a button click", this === window);
+    this.sayHi = function() {
+      console.log(`Hello I'm ${this.name} and I like mushrooms.`);
+    }
   }
 
-  button.addEventListener("click", onButtonClick);
+  const funGuy = new FunFoo('Eric');
+  // funGuy.sayHi();
 })();
 
 ///////////////////////////////////////////////////////////////////////
@@ -84,7 +95,7 @@
   "use strict";
 
   function whatDoesThisBelongTo() {
-    console.log("This is the window", this === window);
+    console.log("In a function", this === window, this);
   }
 
   // whatDoesThisBelongTo();
@@ -93,36 +104,33 @@
 /////////////////////////////////////////////////////////////////////////
 
 (function() {
-  function myVeryImpressionableFunction() {
+  // "use strict";
+
+  function impressionable() {
     console.log("Today I am bound eternally to...", this);
   }
 
   // myVeryImpressionableFunction();
 
   // myVeryImpressionableFunction.call(null);
+  // myVeryImpressionableFunction.call("A message");
 
-  (function() {
-    "use strict";
-    // myVeryImpressionableFunction.call(null);
-  })();
+  // impressionable.apply("Something completely different.");
 
-  // myVeryImpressionableFunction.apply("Something completely different.");
-
-  const boundImpressionableFunction = myVeryImpressionableFunction.bind({ id: "This is an object now..."});
-  // boundImpressionableFunction();
-  // myVeryImpressionableFunction();
+  const bound = impressionable.bind({ id: "This is an object now..."});
+  // bound();
+  // impressionable();
 })();
 
 /////////////////////////////////////////////////////////////////////////
 
 (function() {
+  // "use strict";
   const arrowThis = (message) => {
-    // "use strict";
     console.log(message, this);
   };
 
   // arrowThis("If an arrow points at this what does it become?");
-
   // arrowThis.bind("Is it me?")("Is it this this?");
   // arrowThis.call("Let it be me!", "If not that this What about this this?");
   // arrowThis.apply("Surely it'll be me?", ["If not that this What about this this?"]);
@@ -133,11 +141,11 @@
 (function() {
   function FunctionHireShop() {
     this.otherFunction = function () {
-      console.log("Here I am!")
+      return "Here I am!";
     }
 
-    this.someUtilityFunction = function () {
-      console.log("I need my buddy to work...", this.otherFunction())
+    this.someUtilityFunction = () => {
+      return `I need my buddy to work...${this.otherFunction()}`;
     }
   }
 
@@ -145,13 +153,13 @@
     this.someUtilityFunction = someUtilityFunction;
 
     this.doSomeDiy = function () {
-      console.log("I just reach for that function i got from the shop...", this.someUtilityFunction())
+      return `I just reach for that function i got from the shop...${this.someUtilityFunction()}`;
     }
   }
 
   const hireShop = new FunctionHireShop();
   const eagerDiyer = new DiyFunctionUser(hireShop.someUtilityFunction);
 
-  eagerDiyer.doSomeDiy();
-});
+  console.log(eagerDiyer.doSomeDiy());
+})();
 
