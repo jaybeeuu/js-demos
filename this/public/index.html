@@ -3,46 +3,8 @@
     <title>What even is <code>this</code>?</title>
 </head>
 <body>
-    <h1>What even is <code>this</code>?</h1>
-    <div>
-        <a href="https://www.w3schools.com/js/js_this.asp">From w3schools:</a>
-
-        <blockquote>
-            <p>
-                The JavaScript <code>this</code> keyword refers to the object it belongs to.
-                It has different values depending on where it is used:
-            </p>
-            <ul>
-                <li>In a method, this refers to the owner object.</li>
-                <li>Alone, <code>this</code> refers to the global object.</li>
-                <li>In a function, <code>this</code> refers to the global object.</li>
-                <li>In a function, in strict mode, <code>this</code> is <code>undefined</code>.</li>
-                <li>In an event, <code>this</code> refers to the element that received the event.</li>
-                <li>Methods like <code>call()</code>, and <code>apply()</code> can refer <code>this</code> to any object.</li>
-            </ul>
-        </blockquote>
-    </div>
-
-    <h2>But what about ES6 arrow functions</h2>
-    <div>
-        <p>
-            They are much simpler. They inherit <code>this</code> from their declaration.
-        </p>
-        <p>
-            <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions#No_separate_this">From MDN:</a>
-        </p>
-        <blockquote>
-            <p>
-              An arrow function does not have its own <code>this</code>.
-              The <code>this</code> value of the enclosing lexical scope is used;
-              arrow functions follow the normal variable lookup rules.
-              So while searching for <code>this</code> which is not present in current
-              scope they end up finding <code>this</code> from its enclosing scope.
-            </p>
-        </blockquote>
-    </div>
-    <button id="eventful-button">Click Me!</button>
-
+    <div id="text"></div>
+    <script src="/text.js"></script>
     <script src="/examples.js"></script>
 </body>
 </html>
