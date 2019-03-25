@@ -1,0 +1,19 @@
+{
+  "name": "modules",
+  "version": "0.0.0",
+  "description": "Demo how modules work in JS",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./index.js",
+    "debug": "node --inspect-brk ./index.js"
+  },
+  "keywords": [
+    "modules"
+  ],
+  "author": "Josh Bickley-Wallace (joshbickleywallace@outlook.com)",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4",
+    "nodemon": "^1.18.10"
+  }
+}
