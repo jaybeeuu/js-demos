@@ -1,8 +1,9 @@
 const express = require('express')
+const fs = require('fs');
+const showdown = require('showdown');
+
 const app = express()
 const port = 3000
-const showdown = require('showdown');
-const fs = require('fs');
 
 const textPromise = new Promise((resolve, reject) => {
   fs.readFile('README.md', { encoding: 'utf8' }, (err, content) => {
