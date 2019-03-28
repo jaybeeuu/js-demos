@@ -33,9 +33,9 @@ A module in JS allows the author to import the dependencies of the code they def
 
 ### [AMD](https://en.wikipedia.org/wiki/Asynchronous_module_definition)
 
-Asynchronous Module Definitions. Most notably implemented by [Require.js](https://requirejs.org/). The idea here is to allow modules to be loaded in a lazy manner - i.e. as late as possible. The goal being to increase page load times by not loading anything until it is required.
+Asynchronous Module Definitions. Most notably implemented by [Require.js](https://requirejs.org/). One of the key features of this standard is to allow modules to be loaded in a lazy manner - i.e. as late as possible. The goal being to increase page load times by not loading anything until it is required.
 
-Here's what a module looks like:
+Here's what an AMD module looks like:
 
 ```js
 // Cat.js
@@ -60,13 +60,11 @@ define(["movement/prowl", "noises/miaow"],
 );
 ```
 
-The syntax is complex, setting it up is finicky and it's not a popular way of doing modules so let's not dwell on it.
+The syntax is complex, setting it up is finicky and it's not a popular way of doing modules anymore so let's not dwell on it.
 
 ### [CommonJS](https://en.wikipedia.org/wiki/CommonJS)
 
-This is a much more popular module type. As implemented by [Node.js](https://nodejs.org/en/).
-
-This syntax is much easier to understand and because of node's populartiy it is a much more common method of defining and using modules.
+Because this is the module system implemented by [Node.js](https://nodejs.org/en/) it is more likely you will come across it. It has a clean syntax and the `require` statements which pull in code can go anywhere in the file which can lend readbility. On the down side the require statements can go anywhere so the dependencies of a file are not necessarily obvious.
 
 here's an example ripped almost exactly from the [node docs](https://nodejs.org/docs/latest/api/modules.html)...
 
