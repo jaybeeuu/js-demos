@@ -35,6 +35,10 @@ define(["movement/prowl", "noises/miaow"],
           move() {
             prowl();
           }
+
+          isBetterTHanADog() {
+            return true;
+          }
         }
 
         return Cat;

@@ -12,7 +12,8 @@ const textPromise = new Promise((resolve, reject) => {
       return;
     }
 
-    const converter = new showdown.Converter()
+    const converter = new showdown.Converter();
+    converter.setFlavor('github');
     const htmlContent = converter.makeHtml(content);
     resolve(htmlContent);
   });
@@ -22,7 +23,7 @@ app.get('/', function(req, res){
   res.sendFile('index.html', { root: __dirname + "/public" } );
 });
 
-app.get('/text', function(req, res, next) {
+app.get('/markdown', function(req, res, next) {
   textPromise.then((htmlContent) => {
     res.type('html');
     res.send(htmlContent);
