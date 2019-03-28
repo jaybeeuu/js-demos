@@ -4,7 +4,7 @@
   "description": "Demo the properties of this in JS",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./index.js"
+    "start": "nodemon --watch **.* ./index.js"
   },
   "keywords": [
     "this",
