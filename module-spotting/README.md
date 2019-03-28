@@ -36,7 +36,7 @@ define(["movement/prowl", "noises/miaow"],
             prowl();
           }
 
-          isBetterTHanADog() {
+          isBetterThanADog() {
             return true;
           }
         }
@@ -74,5 +74,33 @@ console.log(`The area of a circle of radius 4 is ${circle.area(4)}`);
 Cyclic dependencies
 
 ### UMD
+
+UMD (Unified Module Definitions) aims to join both - library authors needed to wrap their code up as modules which worked in as many environments as possible and so UMD was born. At it's core is a series of templates in a github [repo](https://github.com/umdjs/umd). They work fine - but getting your head around what they do can be tricky.
+
+Here's an exmaple:
+
+```js
+// commonjsStrictGlobal.js
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['exports', 'b'], function (exports, b) {
+            factory((root.commonJsStrictGlobal = exports), b);
+        });
+    } else if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
+        // CommonJS
+        factory(exports, require('b'));
+    } else {
+        // Browser globals
+        factory((root.commonJsStrictGlobal = {}), root.b);
+    }
+}(typeof self !== 'undefined' ? self : this, function (exports, b) {
+    // Use b in some fashion.
+
+    // attach properties to the exports object to define
+    // the exported module properties.
+    exports.action = function () {};
+}));
+```
 
 ### ES6 (Harmony)
