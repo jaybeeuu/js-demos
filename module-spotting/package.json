@@ -4,7 +4,7 @@
   "description": "Demo how modules work in JS",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./index.js",
+    "start": "nodemon --watch **.* ./index.js",
     "debug": "node --inspect-brk ./index.js"
   },
   "keywords": [
