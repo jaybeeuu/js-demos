@@ -64,13 +64,15 @@ The key here is the `define` function on line 1. `RequireJS` wraps the module co
 
 At the end of the definition function `return Cat;` defines the export of the module (the `Cat` class).
 
-The syntax is complex, setting it up is finicky and it's not a popular way of doing modules anymore so let's not dwell on it. But it is a bit like a penny-farthing - no one likes to use it amymore, but every now and again you see one in the street it's fun to point at it and wonder about how anyone came up with such an invention...
+The syntax is complex, setting it up is finicky and it's not a popular way of doing modules anymore so let's not dwell on it. But it is a bit like a penny-farthing - no one likes to use it anymore, but every now and again you see one in the street it's fun to point at it and wonder about how anyone came up with such an invention...
+
+Having said that a time when you might see something like this is if you are debugging some code which has been bundled by webpack, without source maps, and it has been configured to have an `AMD` style output so it does show up every now and again.
 
 ### [CommonJS](https://en.wikipedia.org/wiki/CommonJS)
 
-Because this is the module system implemented by [Node.js](https://nodejs.org/en/) it is more likely you will come across it. It has a clean syntax and the `require` statements which pull in code can go anywhere in the file which can lend readability. On the down side the require statements can go anywhere so the dependencies of a file are not necessarily obvious.
+Because this is the module system implemented by [Node.js](https://nodejs.org/en/) it is more likely you will come across it. It's also worth pointing out that code transpiled and bundled by `webpack` is converted into modules with a `CommonJS` flavour so you can come across it in the browser too. It is definitely worth getting into some detail about this one.
 
-THe way this works is that when node executes the `JS` in a module it wraps the code in a closure. The closure supplies a couple of special arguments which the module can use. More details can be found [here](https://nodejs.org/docs/latest/api/modules.html#modules_the_module_wrapper). But the important ones for the sake of this discussion are `exports`, `module` and `require`.
+The way this works is that when node executes the JS in a module it wraps the code in a function. The function  supplies a couple of special arguments which the module can use. More details can be found [here](https://nodejs.org/docs/latest/api/modules.html#modules_the_module_wrapper). But the important ones for the sake of this discussion are `exports`, `module` and `require`.
 
 Here's an example ripped almost exactly from the [node docs](https://nodejs.org/docs/latest/api/modules.html)...
 
@@ -141,7 +143,7 @@ exports.e = 'A message of love and peace an how we can all just get along if we 
 
 In this case any module importing `someStoopidModule` will only ba able to use `c` and `d` because `a`, `b` `e` were defined on an object which will have been tied up by the garbage collector... For this reason you should be cautious about mixing `module.exports` and `exports` and in general only use one or the other. you might also see this: `module.exports = exports = ...` which allows `exports` to be used _after_ module.exports has been set. Still anything written to it before will be lost.
 
-On the whole though `CommonJS` is a reasonably good module system it's syntax is terse and there aren't many gotchas. We haven't talked about cyclic dependencies (module A depends on B depends on A) but `CommonJS` [handles](https://nodejs.org/docs/latest/api/modules.html#cycles) them reasonably robustly.
+On the whole though `CommonJS` is a reasonably good module system it's syntax is terse and there aren't many gotchas. It has a clean syntax and the `require` statements which pull in code can go anywhere in the file which can lend readability. On the down side the `require` statements can go anywhere so the dependencies of a file are not necessarily obvious. We haven't talked about cyclic dependencies (module A depends on B depends on A) but `CommonJS` [handles](https://nodejs.org/docs/latest/api/modules.html#cycles) them reasonably robustly.
 
 ### [UMD]((https://github.com/umdjs/umd)
 
@@ -179,9 +181,11 @@ Once if knows what the module system is it injects the `exports` object and the 
 
 Again this isn't a module definition type that you are likely to come across regularly, unless you look at the source code of some older libraries, so don't worry too much. If `AMD` is a penny-farthing then I suppose `UMD` is a reasonably priced car with a penny-farthing bolted on one side and a horse tied to the other. Let's move on.
 
-### [(]ES6 (Harmony)](http://exploringjs.com/es6/ch_modules.html)
+### [ES6 (Harmony)](http://exploringjs.com/es6/ch_modules.html)
 
 This is the one to pay most attention to. This is the officially sanctioned module standard as per the ES6 specification. It has taken a while but many browsers now [support](https://caniuse.com/#search=modules) the spec. Because of [differences](https://hackernoon.com/node-js-tc-39-and-modules-a1118aecf95e) between node's CommonJS and ES6 modules it has taken longer for modules to be supported there, but it is now on it's [way](https://nodejs.org/api/esm.html).
+
+If you have tp support older browsers or want to use ES6 modules in node today then you can do that too. Tools like `webpack` with `babel` or `babel-node` will let you do just that. These tools replace some reference sand keywords and wrap your code in a function that convert the statements to `CommonJS` or `AMD` style modules.
 
 Lets get down to brass tacks...
 
@@ -193,10 +197,38 @@ export const area = (r) => PI * r ** 2;
 
 export const circumference = (r) => 2 * PI * r;
 
-export default { area, circumference };
+export const diameter = (r) => 2 * r;
 ```
 
-In this adaptation of the circle example from earlier two functions are exported as "named exports" from the module.
+In this adaptation of the circle example you can see 3 things being exported. The `area`, `circumference` and `diameter` functions are *named exports* from this module to access them you must use curly braces in your `import` statement. Like this:
+
+```js
+import { circumference, diameter } from './circle.js'
+
+console.log(`The circumference of a circle of radius 4 is ${circumference(4)}`);
+console.log(`The circumference of a circle of radius 2 is ${diameter(2)}`);
+```
+
+I import more than one named export by using a comma - this should look familiar from object spread syntax. I don't have to import everything if i don't want to - this module only uses `circumference` and `diameter` so those are the only exports I reference. If  you do want everything you can do that too with a `* as`:
+
+```js
+import * as circle from './circle.js'
+
+console.log(`The circumference of a circle of radius 4 is ${circle.circumference(4)}`);
+console.log(`The circumference of a circle of radius 2 is ${circle.diameter(2)}`);
+```
+
+If I want to use a different name (perhaps to avoid a collision with another module) for the export in the dependent module then i can do that too - but the syntax diverges from the object spread syntax:
+
+```js
+import { area as circleArea } from './circle.js';
+import { area as triangleArea } from './triangle.js';
+
+console.log(`The area of a circle of radius 4 is ${circleArea(4)}`);
+console.log(`The area of a triangle of base 4 and height of 2 is ${triangleArea(4, 2)}`);
+```
+
+We can define a default export for the module. Which is often used when the module exports a `class` or a single object. the `square` module below does that:
 
 ```js
 // square.js
@@ -213,14 +245,38 @@ class Square {
 export default Square;
 ```
 
-```js
-// index.js
-import { area as circleArea, circumference } from './circle.js'
-import Square from './circle.js'
+Here the `default` keyword has been used as well as `export`. Not much more to say about that really. Importing the default is simple too - just omit the curly braces and you get the default:.
 
-console.log(`The area of a circle of radius 4 is ${circleArea(4)}`);
-console.log(`The circumference of a circle of radius 4 is ${circumference(4)}`);
+```js
+import Square from './circle.js'
 
 const square = new Square(2);
 console.log(`The area of a square with width 2 is ${square.area()}`);
 ```
+
+In the case of the default you can call the import whatever you like so if you need to us `as` if you want to call it something different in the dependent module.
+
+The final case is one where you have both named and default exports. Like in the slightly contrived triangle module below...
+
+```js
+// triangle.js
+export const area = (base, height) => 1/2 b * h
+
+class Triangle {
+  constructor(base, height) {
+    this.area = () => area(base, height);
+  }
+}
+
+export default Triangle
+```
+
+```js
+import Triangle, { area } from './triangle.js';
+
+const triangle = new Triangle(4, 2);
+console.log(`The area of a triangle of base 4 and height of 2 is ${area(4, 2)}`);
+console.log(`The area of a triangle of base 4 and height of 2 is ${triangle.area()}`);
+```
+
+Again you don't have to import everything so if you only want either default or named exports then that is fine. Also the name exports will behave themselves if you want to use `as` or `* as` with or without the default export as you would expect.
