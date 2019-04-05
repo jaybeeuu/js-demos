@@ -13,7 +13,7 @@ Something had to give. A few competing standards grew each with their own quirks
 
 ## So what actually is a module anyway?
 
-THe Google definition is:
+The Google definition is:
 
 > module
 > /ˈmɒdjuːl/
@@ -144,6 +144,12 @@ exports.e = 'A message of love and peace an how we can all just get along if we 
 In this case any module importing `missingModule` will only ba able to use `c` and `d` because `a`, `b` `e` were defined on an object which will have been tied up by the garbage collector... For this reason you should be cautious about mixing `module.exports` and `exports` and in general only use one or the other.You might also see this: `module.exports = exports = ...` which allows `exports` to be used _after_ `module.exports` has been set. Still anything written to it before will be lost.
 
 On the whole though `CommonJS` is a reasonably good module system it's syntax is terse and there aren't many gotchas. It has a clean syntax and the `require` statements which pull in code can go anywhere in the file which can lend readability. On the down side the `require` statements can go anywhere so the dependencies of a file are not necessarily obvious. We haven't talked about cyclic dependencies (module A depends on B depends on A) but `CommonJS` [handles](https://nodejs.org/docs/latest/api/modules.html#cycles) them reasonably robustly.
+
+#### Running the Examples
+
+If you want to play around with this style of module a bit then you can find some of the examples above in the `node-examples` directory in the root of this project.
+
+running `npm run examples` will run `node-examples/index.js` in node, and you can start it with a debugger with `npm run examples:debug`.
 
 ### [UMD]((https://github.com/umdjs/umd)
 
@@ -282,3 +288,7 @@ console.log(`The area of a triangle of base 4 and height of 2 is ${triangle.area
 Again you don't have to import everything so if you only want either default or named exports then that is fine. Also the name exports will behave themselves if you want to use `as` or `* as` with or without the default export as you would expect.
 
 Once you get started with ES6 imports they are pretty clear. The syntax is reasonably simple and they are flexible enough to allow you to do what ever you need with them. If you dig into the [details](http://exploringjs.com/es6/ch_modules.html#sec_cyclic-dependencies) a little then they also handle cyclic dependencies better than `CommonJS` too. There is also support for async loading of modules out of the box, in a similar manner to `AMD`. We're getting the best of both here!
+
+#### Running the Examples
+
+If you want to play around with this style of module a bit then you can find some of the examples above in the `public/browser-examples` directory in the root of this project. These are served up by express so run `npm run start` and open `http://localhost:3000` in a modern browser (see the caniuse link above for details of supported versions). It will open this readme and if you look in devtools you will be able to see the modules being loaded (checkout the network tab) and executed (see the console and sources tabs) natively in your browser...
