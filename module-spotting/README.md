@@ -151,7 +151,7 @@ If you want to play around with this style of module a bit then you can find som
 
 running `npm run examples` will run `node-examples/index.js` in node, and you can start it with a debugger with `npm run examples:debug`.
 
-### [UMD]((https://github.com/umdjs/umd)
+### [UMD](https://github.com/umdjs/umd)
 
 UMD (Unified Module Definitions) aims to join both - library authors needed to wrap their code up as modules which worked in as many environments as possible and so UMD was born. At it's core is a series of templates in a github [repo](https://github.com/umdjs/umd). They work fine - but getting your head around what they do can be tricky.
 
