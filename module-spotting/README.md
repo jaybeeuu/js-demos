@@ -128,7 +128,7 @@ console.log(`The area of a square with width 2 is ${square.area()}`);
 A thing to note here is that the `exports` argument is a short cut to the `module.exports` property, but it is the `module.exports` object which actually gets passed to the dependents. Therefore if you overwrite it anything which is written to `exports` will be ignored and only things written to `module.exports` after it has been overwritten will be available...
 
 ```js
-// someStoopidModule.js
+// missingModule.js
 
 exports.a = function () { console.log('Can\'t touch this'); };
 module.exports.b = function () { console.log('Nah na na na, nah na, nah na'); };
@@ -137,11 +137,11 @@ module.exports = {
   c: function() { console.log('This had better do all those other things...'); }
 };
 
-module.exports.d: function() { console.log('hmmm... something\'s missing.'); }
-exports.e = 'A message of love and peace an how we can all just get along if we tried.'
+module.exports.d = function() { console.log('hmmm... something\'s missing.'); }
+exports.e = 'A message of love and peace an how we can all just get along if we tried.';
 ```
 
-In this case any module importing `someStoopidModule` will only ba able to use `c` and `d` because `a`, `b` `e` were defined on an object which will have been tied up by the garbage collector... For this reason you should be cautious about mixing `module.exports` and `exports` and in general only use one or the other. you might also see this: `module.exports = exports = ...` which allows `exports` to be used _after_ module.exports has been set. Still anything written to it before will be lost.
+In this case any module importing `missingModule` will only ba able to use `c` and `d` because `a`, `b` `e` were defined on an object which will have been tied up by the garbage collector... For this reason you should be cautious about mixing `module.exports` and `exports` and in general only use one or the other.You might also see this: `module.exports = exports = ...` which allows `exports` to be used _after_ `module.exports` has been set. Still anything written to it before will be lost.
 
 On the whole though `CommonJS` is a reasonably good module system it's syntax is terse and there aren't many gotchas. It has a clean syntax and the `require` statements which pull in code can go anywhere in the file which can lend readability. On the down side the `require` statements can go anywhere so the dependencies of a file are not necessarily obvious. We haven't talked about cyclic dependencies (module A depends on B depends on A) but `CommonJS` [handles](https://nodejs.org/docs/latest/api/modules.html#cycles) them reasonably robustly.
 
@@ -280,3 +280,5 @@ console.log(`The area of a triangle of base 4 and height of 2 is ${triangle.area
 ```
 
 Again you don't have to import everything so if you only want either default or named exports then that is fine. Also the name exports will behave themselves if you want to use `as` or `* as` with or without the default export as you would expect.
+
+Once you get started with ES6 imports they are pretty clear. The syntax is reasonably simple and they are flexible enough to allow you to do what ever you need with them. If you dig into the [details](http://exploringjs.com/es6/ch_modules.html#sec_cyclic-dependencies) a little then they also handle cyclic dependencies better than `CommonJS` too. There is also support for async loading of modules out of the box, in a similar manner to `AMD`. We're getting the best of both here!

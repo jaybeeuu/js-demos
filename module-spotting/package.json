@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --watch **.* ./index.js",
-    "debug": "node --inspect-brk ./index.js"
+    "debug": "node --inspect-brk ./index.js",
+    "examples": "node ./node-examples/index.js",
+    "examples:debug": "node --inspect-brk ./index.js"
   },
   "keywords": [
     "modules"
